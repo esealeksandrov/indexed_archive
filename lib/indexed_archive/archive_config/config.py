@@ -3,8 +3,8 @@ Config - an entity, that contains archive configuration information in json file
 ConfigData:
     fields:
         id: str
+        created_date: int
         index_type: ConfigType
-
 """
 
 
@@ -28,6 +28,7 @@ class ConfigData:
     """
     def __init__(self):
         self.id: str = None
+        self.created_date: int = None
         self.index_type: IndexType = None
 
     def get_fields(self):
@@ -43,8 +44,8 @@ class ConfigData:
 
 class Config:
     """Class for manipulation archive configuration"""
-    def __init__(self, path: str):
-        self._path: str = os.path.abspath(path)
+    def __init__(self, archive_path: str):
+        self._path: str = os.path.abspath(os.path.join(archive_path, "config.json"))
         self._config_data: ConfigData = ConfigData()
         self._init_config_file()
 
@@ -52,6 +53,8 @@ class Config:
         """send dict with none values to json file"""
         if not os.path.exists(self._path) or not os.path.isfile(self._path):
             self._write_config()
+        config_data = self._read_config()
+        self._config_data.init_config(config_data)
 
     def _read_config(self):
         try:

@@ -2,6 +2,8 @@
 archive - an entity that contains information about the archive and search index.
 Class:
     fields:
+        name: str (archive name)
+        created_date: int (created_date timestamp)
         id: str (uniq id_string)
         path: str (path to archive file.)
         size: int (sum of archive data size and index data size. It's calculate with write archive data and index)
@@ -25,6 +27,10 @@ from lib.indexed_archive.archive_config.config import Config
 
 
 class Archive:
-    def __init__(self, archive_path: str):
-        self.path = os.path.abspath(archive_path)
-        self.config = os.path.join(self.path, "config.json")
+    def __init__(self, name: str, archive_path: str):
+        self._name = name
+        self._path = os.path.abspath(archive_path)
+        self._config = Config(self.path)
+
+    def _init_archive_path(self):
+
