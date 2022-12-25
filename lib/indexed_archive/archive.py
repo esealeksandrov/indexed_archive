@@ -21,6 +21,7 @@ Class:
 
 
 import os
+from lib.indexed_archive.archive_config.config import Config
 
 
 class Archive:

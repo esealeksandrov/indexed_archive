@@ -28,7 +28,7 @@ class ConfigData:
     """
     def __init__(self):
         self.id: str = None
-        self.index_type: ConfigTypes = None
+        self.index_type: IndexType = None
 
     def get_fields(self):
         return tuple(filter(lambda k: not k.startswith("_"), self.__dict__.keys()))
@@ -81,3 +81,4 @@ class Config:
     def __setattr__(self, key, value):
         self._validate_field(key)
         self._config_data.__dict__[key] = value
+
