@@ -1,3 +1,13 @@
+"""
+Config - an entity, that contains archive configuration information in json file above archive.
+ConfigData:
+    fields:
+        id: str
+        index_type: ConfigType
+
+"""
+
+
 import os
 import json
 
@@ -8,8 +18,7 @@ from lib.indexed_archive.archive_config.exceptions import (
     ConfigWriteException,
     ConfigFieldException
 )
-from lib.indexed_archive.archive_config.config_types import ConfigTypes
-
+from lib.indexed_archive.archive_config.config_types import IndexType
 
 class ConfigData:
     """

@@ -1,7 +1,7 @@
 from enum import Enum, auto
 
 
-class ConfigTypes(Enum):
+class IndexType(Enum):
     JSON2D = auto()
     JSON = auto()
     TEXT = auto()

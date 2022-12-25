@@ -1,5 +1,5 @@
 """
-Архив - Сущность, содержащая в себе архивированные данные и индекс.
+archive - an entity that contains information about the archive and search index.
 Class:
     fields:
         id: str (uniq id_string)
@@ -16,11 +16,8 @@ Class:
             Logs - it's a list of messages/lines waiting to be archived
         )
     functions:
-        read:
-        check_in:
+        ...
 """
-
-
 
 
 import os
