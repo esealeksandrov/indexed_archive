@@ -1,3 +1,28 @@
+"""
+Архив - Сущность, содержащая в себе архивированные данные и индекс.
+Class:
+    fields:
+        id: str (uniq id_string)
+        path: str (path to archive file.)
+        size: int (sum of archive data size and index data size. It's calculate with write archive data and index)
+        config: Config (object containing configuration of archive)
+        index: IndexData (object containing Index data for search)
+        data: ArchiveData (
+            object containing archived data.
+            Archived_data - it's a zipped text data
+        )
+        log: ArchiveLog (
+            object containing logs.
+            Logs - it's a list of messages/lines waiting to be archived
+        )
+    functions:
+        read:
+        check_in:
+"""
+
+
+
+
 import os
 
 

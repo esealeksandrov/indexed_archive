@@ -3,11 +3,12 @@ import json
 
 from lib.constants import DEFAULT_ENCODING
 from lib.utils import read_dict_field
-from lib.indexed_archive.exceptions import (
+from lib.indexed_archive.archive_config.exceptions import (
     ConfigReadException,
     ConfigWriteException,
     ConfigFieldException
 )
+from lib.indexed_archive.archive_config.config_types import ConfigTypes
 
 
 class ConfigData:
@@ -18,15 +19,14 @@ class ConfigData:
     """
     def __init__(self):
         self.id: str = None
-        self.name: str = None
-        self.index_type: str = None
+        self.index_type: ConfigTypes = None
 
     def get_fields(self):
         return tuple(filter(lambda k: not k.startswith("_"), self.__dict__.keys()))
 
     def init_config(self, config_data: dict):
         for field_name in self.get_fields():
-            self.__dict__[field_name] = read_dict_field(field_name, config_data)
+            self.__dict__[field_name] = read_dict_field(config_data, field_name)
 
     def to_dict(self):
         return {k: v for k, v in self.__dict__ if not k.startswith("_")}
