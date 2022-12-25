@@ -33,4 +33,5 @@ class Archive:
         self._config = Config(self.path)
 
     def _init_archive_path(self):
+        ...
 
