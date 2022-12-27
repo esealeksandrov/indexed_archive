@@ -3,20 +3,24 @@ All IndexArchive exceptions
 """
 
 
-class ConfigException(Exception):
-    ...
-
-class ConfigFieldReadException(ConfigException):
+class ArchiveConfigFileException(Exception):
     ...
 
 
-class ConfigReadException(ConfigException):
+class ArchiveConfigFileCreateException(ArchiveConfigFileException):
     ...
 
 
-class ConfigWriteException(ConfigException):
+class ArchiveConfigFieldReadException(ArchiveConfigFileException):
     ...
 
 
-class ConfigFieldException(ConfigException):
+class ArchiveConfigFileWriteException(ArchiveConfigFileException):
+    ...
+
+
+class ArchiveConfigFieldFileException(ArchiveConfigFileException):
+    ...
+
+class ArchiveConfigFileNotValid(ArchiveConfigFileException):
     ...
