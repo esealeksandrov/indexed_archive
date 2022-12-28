@@ -3,11 +3,23 @@ All IndexArchive exceptions
 """
 
 
-class ArchiveConfigFileException(Exception):
+class ArchiveConfigException(Exception):
+    ...
+
+
+class ArchiveConfigFileException(ArchiveConfigException):
+    ...
+
+
+class ArchiveConfigDirectoryException(ArchiveConfigException):
     ...
 
 
 class ArchiveConfigFileCreateException(ArchiveConfigFileException):
+    ...
+
+
+class ArchiveConfigDirectoryCreateException(ArchiveConfigDirectoryException):
     ...
 
 

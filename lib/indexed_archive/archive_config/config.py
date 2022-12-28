@@ -13,7 +13,11 @@ import json
 from datetime import datetime
 
 from lib.constants import DEFAULT_ENCODING
-from lib.utils import read_dict_field
+from lib.utils import (
+    read_dict_field,
+    path_exists,
+    path_accessible
+)
 from lib.indexed_archive.archive_config.exceptions import (
     ArchiveConfigFileCreateException,
     ArchiveConfigFieldReadException,
@@ -57,24 +61,36 @@ class Config:
         self._config_data: ConfigData = ConfigData()
         self._init_config_file()
 
+    @classmethod
+    def create(cls, arch_path: str):
+        if not path_exists(arch_path) and not path_accessible(arch_path):
+            raise ArchiveConfigFileCreateException("Can't create config directory({})")
+        config_path = cls.get_config_path(arch_path)
+        try:
+            with open(config_path, "w", encoding=DEFAULT_ENCODING) as config_file:
+                config_file.write(ConfigData.to_dict())
+        except Exception as e:
+            raise ArchiveConfigFileCreateException(f"Can't create config file({config_path}) : {e}")
+
+    @classmethod
+    def get_config_path(cls, archive_path: str) -> str:
+        return os.path.join(os.path.abspath(archive_path), "config.json")
+
     def is_config_file_exists(self):
-        return os.path.exists(self._config_file_path)
+        return path_exists(self._config_file_path)
 
     def is_config_file_accessible(self):
-        return os.access(self._config_file_path, os.R_OK | os.W_OK)
+        return path_accessible(self._config_file_path)
 
     def _init_config_file(self):
         """check config file, try to read."""
-        if self.is_config_file_exists():
-            if not self.is_config_file_accessible():
-                raise ArchiveConfigFieldReadException(f"Can't read/write config file ({self._config_file_path}): "
-                                                      f"file not accessible")
-            config_data = self._read_config_data()
-            if config_data is None:
-                self._write_config_data()
-            self._config_data.init_config(self._read_config_data())
-        else:
-            self._write_config_data()
+        if not self.is_config_file_exists() and not self.is_config_file_accessible():
+            raise ArchiveConfigFieldReadException(f"Can't read/write config file({self._config_file_path}):"
+                                                  f" not available.")
+        config_data_dict = self._read_config_data()
+        if config_data_dict is None:
+            raise ArchiveConfigFileNotValid(f"File ({self._config_file_path}) is empty")
+        self._config_data = ConfigData(config_data_dict)
 
     def _read_config_data(self):
         if not self.is_config_file_exists():
@@ -84,14 +100,12 @@ class Config:
             try:
                 return json.loads(config_file.read())
             except json.JSONDecodeError as e:
-                ArchiveConfigFieldReadException(f"Can't decode config file({self._config_file_path}): {e}")
+                ArchiveConfigFileNotValid(f"Can't decode config file({self._config_file_path}): {e}")
         return None
 
     def _write_config_data(self):
         with open(self._config_file_path, "w", encoding=DEFAULT_ENCODING) as config_file:
             config_file.write(json.dumps(self._config_data.to_dict()))
-
-    # config data proxy fields
 
     def __getattr__(self, item):
         if item in self._config_data.get_fields():
