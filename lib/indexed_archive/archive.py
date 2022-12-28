@@ -79,6 +79,11 @@ class Archive:
             raise ArchiveCreateDirException(f"Can't create archive dir ({archive_path}): {e}")
         return archive_path
 
+    def delete(self):
+        try: os.rmdir(self._archive_path)
+        except Exception as e:
+            print("joijdoqwijdoijqw")
+
 # class Archive:
 #     def __init__(self, archive_path: str):
 #         self._id = None
