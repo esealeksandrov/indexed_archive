@@ -62,7 +62,7 @@ class Config:
         self._init_config_file()
 
     @classmethod
-    def create(cls, arch_path: str):
+    def create(cls, arch_path: str, id: str, index_type: IndexType, description: str = ""):
         if not path_exists(arch_path) and not path_accessible(arch_path):
             raise ArchiveConfigFileCreateException("Can't create config directory({})")
         config_path = cls.get_config_path(arch_path)
