@@ -31,7 +31,7 @@ class ArchiveConfigFileWriteException(ArchiveConfigFileException):
     ...
 
 
-class ArchiveConfigFieldFileException(ArchiveConfigFileException):
+class ArchiveConfigFieldException(ArchiveConfigFileException):
     ...
 
 class ArchiveConfigFileNotValid(ArchiveConfigFileException):

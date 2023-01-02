@@ -31,7 +31,7 @@ from lib.indexed_archive.exceptions import (
     ArchiveInvalidPath
 )
 from lib.indexed_archive.archive_config.config import Config
-from lib.indexed_archive.archive_config.config_types import IndexType
+from lib.indexed_archive.archive_index.index_types import IndexType
 from lib.indexed_archive.archive_index.index import Index
 from lib.indexed_archive.archive_log.log import Log
 
@@ -60,7 +60,6 @@ class Archive:
 
     @classmethod
     def create(cls, root_path: str, archive_id: str, index_type: IndexType, description: str = None):
-        created_date = datetime.now()
         root_path = os.path.abspath(root_path)
         archive_path = cls.create_archive_directory(root_path, str(archive_id))
         Config.create(archive_path, archive_id, index_type, description)

@@ -1,3 +1,6 @@
+from lib.indexed_archive.archive_index.index_types import IndexType
+
+
 class Index:
     def __int__(self):
         ...
@@ -6,5 +9,5 @@ class Index:
         ...
 
     @classmethod
-    def create(cls, archive_path: str):
+    def create(cls, archive_path: str, index_type: IndexType):
         ...
